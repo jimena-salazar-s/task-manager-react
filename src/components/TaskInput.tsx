@@ -17,26 +17,28 @@ function TaskInput(props: TaskInputProps) {
     };
 
     return (
-        <div className="task-input">
-            <input
-                type="text"
-                placeholder="Add a new task"
-                value={title}
-                onChange={(event) => setText(event.target.value)}
-                onKeyDown={(event) => {
-                    if (event.key === "Enter") {
-                        handleSubmit();
-                    }
-                }}
-            />
+        <div className="input-section">
+            <div className="task-input">
+                <input
+                    type="text"
+                    placeholder="Add a new task"
+                    value={title}
+                    onChange={(event) => setText(event.target.value)}
+                    onKeyDown={(event) => {
+                        if (event.key === "Enter") {
+                            handleSubmit();
+                        }
+                    }}
+                />
 
-            <button onClick={handleSubmit}>
-                New Task
-            </button>
+                <button onClick={handleSubmit}>
+                    New Task
+                </button>
+            </div>
+
             <div className="instructions">
-                ✓ Click the circle to complete a task.
-                <br></br>
-                ✕ Click the red button to delete it.
+                <p>✔ Click the circle to complete a task.</p>
+                <p>✖ Click the red button to delete it.</p>
             </div>
         </div>
     );
