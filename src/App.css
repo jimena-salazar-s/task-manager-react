@@ -1,0 +1,293 @@
+/* ---------- Layout ---------- */
+
+.app-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.main-content {
+  display: flex;
+  gap: 40px;
+  align-items: flex-start;
+}
+
+.task-container {
+    flex: 1;
+    min-width: 0;
+}
+
+/* ---------- Header ---------- */
+
+header {
+  text-align: center;
+  margin-bottom: 60px;
+}
+
+header h1 {
+  font-size: 3rem;
+  margin-bottom: 10px;
+}
+
+header p {
+  font-size: 1.2rem;
+  color: #777;
+}
+
+.hero-header {
+  background-image: url('/images/header-bg.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  min-height: 350px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  text-align: center;
+  position: relative;
+}
+
+.hero-header::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.hero-header h1,
+.hero-header p {
+  position: relative;
+  z-index: 1;
+  color: white;
+}
+
+/* ---------- Input ---------- */
+
+.task-input {
+  display: flex;
+  gap: 12px;
+  margin: 40px auto;
+  max-width: 600px;
+}
+
+.task-input input {
+  flex: 1;
+  padding: 14px 18px;
+  border: 1px solid #e6e6e6;
+  border-radius: 8px;
+  font-size: 1rem;
+  outline: none;
+}
+
+.task-input input:focus {
+  border-color: #26c6c6;
+}
+
+.task-input button {
+  padding: 14px 24px;
+  border: none;
+  border-radius: 8px;
+  background: #26c6c6;
+  color: white;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: all .3s ease;
+}
+
+.task-input button:hover {
+  background: #1fb1b1;
+  transform: translateY(-2px);
+}
+
+/* ---------- Task Section ---------- */
+
+.task-list {
+  list-style: none;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 25px;
+}
+
+.task-card {
+  background: white;
+  border: 1px solid #e6e6e6;
+  padding: 30px 20px;
+  text-align: center;
+  transition: all .3s ease;
+}
+
+.task-card:hover {
+  transform: translateY(-5px);
+  border-color: #26c6c6;
+}
+
+.task-card.completed .task-title {
+  text-decoration: line-through;
+  color: #999;
+}
+
+/* ---------- Check Button ---------- */
+
+.task-icon {
+  width: 70px;
+  height: 70px;
+  margin: 0 auto 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 3px solid #26c6c6;
+  border-radius: 50%;
+  color: #26c6c6;
+  font-size: 28px;
+  font-weight: bold;
+  line-height: 1;
+  cursor: pointer;
+  transition: .3s;
+}
+
+.task-icon.completed {
+  border-color: #c6c6c6;
+  color: #c6c6c6;
+}
+
+/* ---------- Add Task Card ---------- */
+
+.task-card-new {
+  background: #ebebeb;
+  border: 2px dashed #cbcbcb;
+}
+
+.task-card-new:hover {
+  border-color: #777;
+}
+
+.task-icon-new {
+  color: #777;
+  border-color: #777;
+}
+
+/* ---------- Text ---------- */
+
+.task-title {
+  font-size: 1rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+}
+
+.task-description {
+  color: #777;
+  font-size: .9rem;
+}
+
+/* ---------- Delete Button ---------- */
+
+.delete-button {
+  width: 36px;
+  height: 36px;
+  margin-top: 20px;
+  border-radius: 50%;
+  border: 2px solid #ff8a8a;
+  background: white;
+  color: #ff6b6b;
+  cursor: pointer;
+  transition: .3s;
+}
+
+.delete-button:hover {
+  background: #ff6b6b;
+  color: white;
+}
+
+/* ---------- Summary Panel ---------- */
+
+.summary-panel {
+    min-width: 240px;
+    background: white;
+    border: 1px solid #ececec;
+    padding: 25px;
+    height: fit-content;
+    position: sticky;
+    top: 25px;
+}
+
+.summary-panel h3 {
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-top: 0;
+    margin-bottom: 25px;
+    color: #444;
+}
+
+.summary-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 0;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.summary-item:last-child {
+    border-bottom: none;
+}
+
+.summary-item span {
+    color: #666;
+}
+
+.summary-item strong {
+    font-size: 1.3rem;
+    color: #26c6c6;
+}
+
+/* ---------- Empty State ---------- */
+
+.empty-state {
+    width: 100%;
+    box-sizing: border-box;
+    background: #f3f3f3;
+    border: 2px dashed #d9d9d9;
+    padding: 70px 40px;
+    text-align: center;
+}
+
+.empty-icon {
+    font-size: 4rem;
+    margin-bottom: 20px;
+}
+
+.empty-state h3 {
+    margin: 0 0 10px;
+    color: #444;
+}
+
+.empty-state p {
+    margin: 0;
+    color: #777;
+}
+
+.empty-circle {
+    width: 90px;
+    height: 90px;
+    margin: 0 auto 20px;
+    border: 3px dashed #ffc340;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2.5rem;
+    color: #ffc340;
+}
+
+
+/* ---------- Instructions ---------- */
+.instructions {
+    padding-top: 1%;
+    color: #888;
+    font-size: .9rem;
+}
