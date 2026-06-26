@@ -1,3 +1,5 @@
+import { FaCheck, FaTimes } from "react-icons/fa";
+
 type Task = {
     id: number;
     text: string;
@@ -21,7 +23,7 @@ function TaskCard({
                 className={`task-icon ${task.completed ? "completed" : ""}`}
                 onClick={() => onToggleTask(task.id)}
             >
-                ✓
+                <FaCheck />
             </div>
 
             <div className="task-title">
@@ -32,7 +34,7 @@ function TaskCard({
                 className="delete-button"
                 onClick={() => onDeleteTask(task.id)}
             >
-                ✕
+                <FaTimes />
             </button>
         </li>
     );

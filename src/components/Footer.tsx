@@ -1,3 +1,5 @@
+import { FaListUl, FaCheckCircle, FaRegClock } from "react-icons/fa";
+
 type FooterProps = {
     total: number;
     completed: number;
@@ -10,17 +12,26 @@ function Footer({ total, completed, pending }: FooterProps) {
             <h3>Task Summary</h3>
 
             <div className="summary-item">
-                <span>📝 Total</span>
+                <span>
+                    <FaListUl className="summary-icon" />
+                    Total
+                </span>
                 <strong>{total}</strong>
             </div>
 
             <div className="summary-item">
-                <span>✅ Completed</span>
+                <span>
+                    <FaCheckCircle className="summary-icon completed" />
+                    Completed
+                </span>
                 <strong>{completed}</strong>
             </div>
 
             <div className="summary-item">
-                <span>⏳ Pending</span>
+                <span>
+                    <FaRegClock className="summary-icon pending" />
+                    Pending
+                </span>
                 <strong>{pending}</strong>
             </div>
         </aside>
