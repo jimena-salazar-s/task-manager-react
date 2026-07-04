@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./index.css";
 import "./App.css";
 import Header from "./components/Header";
@@ -13,41 +13,74 @@ type Task = {
 };
 
 function App() {
-    const [tasks, setTasks] = useState<Task[]>([
-        { id: 1, text: "Learn React", completed: false },
-        { id: 2, text: "Practice Components", completed: false },
-        { id: 3, text: "Understand Props", completed: false },
-        { id: 4, text: "Practice TypeScript", completed: false },
-        { id: 5, text: "Use State", completed: false }
-    ]);
+    const [tasks, setTasks] = useState<Task[]>([]);
 
-    const addTask = (title: string) => {
-        const newTask: Task = {
-            id: Date.now(),
-            text: title,
-            completed: false
+    useEffect(() => {
+        const fetchTasks = async () => {
+            const response = await fetch("http://localhost:3000/tasks");
+            const data = await response.json();
+            setTasks(data);
         };
+        fetchTasks();
+    }, []);
 
-        setTasks([...tasks, newTask]);
-    };
-
-    const deleteTask = (id: number) => {
-        const updatedTasks = tasks.filter((task) => task.id !== id);
-        setTasks(updatedTasks);
-    };
-
-    const toggleTask = (id: number) => {
-        const updatedTasks = tasks.map((task) => {
-            if (task.id === id) {
-                return {
-                    ...task,
-                    completed: !task.completed
-                };
-            }
-            return task;
+    const addTask = async (text: string) => {
+        const response = await fetch("http://localhost:3000/tasks", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                text
+            })
         });
-        setTasks(updatedTasks);
+
+        const newTask = await response.json();
+
+        setTasks((currentTasks) => [...currentTasks, newTask]);
     };
+
+    const deleteTask = async (id: number) => {
+        const response = await fetch(`http://localhost:3000/tasks/${id}`, {
+            method: "DELETE"
+        });
+
+        if (!response.ok) {
+            console.error("Failed to delete task");
+            return;
+        }
+
+        setTasks((currentTasks) =>
+            currentTasks.filter((task) => task.id !== id)
+        );
+    };
+
+    const toggleTask = async (id: number) => {
+        // Buscar el task actual
+        const task = tasks.find((t) => t.id === id);
+
+        if (!task) return;
+
+        // Llamar al API
+        const response = await fetch(`http://localhost:3000/tasks/${id}`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                completed: !task.completed
+            })
+        });
+
+        const updatedTask = await response.json();
+
+        setTasks((currentTasks) =>
+            currentTasks.map((task) =>
+                task.id === id ? updatedTask : task
+            )
+        );
+    };
+
 
     const completedTasks = tasks.filter((task) => task.completed).length;
     const pendingTasks = tasks.length - completedTasks;
@@ -75,4 +108,5 @@ function App() {
         </div>
     );
 }
+
 export default App;

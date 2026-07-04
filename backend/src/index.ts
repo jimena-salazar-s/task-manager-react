@@ -1,4 +1,6 @@
 const express = require("express");
+const cors = require("cors");
+const jwt = require("jsonwebtoken");
 
 const { PrismaClient } = require("@prisma/client");
 
@@ -21,12 +23,62 @@ const tasks: Task[] = [
     { id: 3, text: "Probar rutas del backend", completed: false }
 ];
 
+app.use(cors());
+app.use(express.json());
+
 app.get("/", (req: any, res: any) => {
     res.send("Backend is working!");
 });
 
+app.post("/login", (req: any, res: any) => {
+    const { email, password } = req.body || {};
+
+    if (email === "admin@test.com" && password === "123456") {
+        const token = jwt.sign(
+            { email: email },
+            "secret_key",
+            { expiresIn: "1h" }
+        );
+
+        return res.json({
+            message: "Login successful",
+            token: token
+        });
+    }
+
+    res.status(401).json({
+        message: "Invalid credentials"
+    });
+});
+
+app.get("/profile", (req: any, res: any) => {
+    const authHeader = req.headers.authorization;
+    
+    if (!authHeader) {
+        return res.status(401).json({
+            message: "No token provided"
+        });
+    }
+
+    const token = authHeader.split(" ")[1];
+    
+    try {
+        const decoded = jwt.verify(token, "secret_key");
+    
+        res.json({
+            message: "Protected profile data",
+            user: decoded
+        });
+    } catch (error) {
+        res.status(401).json({
+            message: "Invalid token"
+        });
+    }
+});
+
 app.get("/tasks", async (req: any, res: any) => {
     const tasksFromDatabase = await prisma.task.findMany();
+    
     res.json(tasksFromDatabase);
 });
 
@@ -78,7 +130,7 @@ app.put("/tasks/:id", async (req: any, res: any) => {
     res.json(updatedTask);
 });
 
-app.get("/tasks/delete/:id", async (req: any, res: any) => {
+app.delete("/tasks/:id", async (req: any, res: any) => {
     const id = Number(req.params.id);
 
     if (isNaN(id)) {
