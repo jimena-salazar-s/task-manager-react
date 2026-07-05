@@ -1,10 +1,13 @@
 import { useEffect, useState } from "react";
+import { FaUser } from "react-icons/fa"; // <-- Añade esta importación
 import "./index.css";
 import "./App.css";
 import Header from "./components/Header";
 import TaskList from "./components/TaskList";
 import TaskInput from "./components/TaskInput";
+import UserPanel from "./components/UserPanel";
 import Footer from "./components/Footer";
+import Login from "./components/Login";
 
 type Task = {
     id: number;
@@ -13,36 +16,80 @@ type Task = {
 };
 
 function App() {
+    const [token, setToken] = useState<string | null>(localStorage.getItem("token"));
     const [tasks, setTasks] = useState<Task[]>([]);
+    const [userEmail, setUserEmail] = useState<string>("");
+
+    // Función para obtener el email desde el token JWT de forma nativa
+    const getEmailFromToken = (jwtToken: string) => {
+        try {
+            const payload = jwtToken.split(".")[1];
+            const decodedPayload = JSON.parse(atob(payload));
+            return decodedPayload.email;
+        } catch (error) {
+            return "";
+        }
+    };
 
     useEffect(() => {
+        if (token) {
+            setUserEmail(getEmailFromToken(token));
+        }
+    }, [token]);
+
+    const handleLoginSuccess = (newToken: string) => {
+        localStorage.setItem("token", newToken);
+        setToken(newToken);
+    };
+
+    const handleLogout = () => {
+        localStorage.removeItem("token");
+        setToken(null);
+        setTasks([]);
+        setUserEmail("");
+    };
+
+    useEffect(() => {
+        if (!token) return;
+
         const fetchTasks = async () => {
-            const response = await fetch("http://localhost:3000/tasks");
-            const data = await response.json();
-            setTasks(data);
+            const response = await fetch("http://localhost:3000/tasks", {
+                headers: {
+                    "Authorization": `Bearer ${token}`
+                }
+            });
+            if (response.ok) {
+                const data = await response.json();
+                setTasks(data);
+            } else {
+                handleLogout();
+            }
         };
         fetchTasks();
-    }, []);
+    }, [token]);
 
     const addTask = async (text: string) => {
         const response = await fetch("http://localhost:3000/tasks", {
             method: "POST",
             headers: {
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`
             },
-            body: JSON.stringify({
-                text
-            })
+            body: JSON.stringify({ text })
         });
 
-        const newTask = await response.json();
-
-        setTasks((currentTasks) => [...currentTasks, newTask]);
+        if (response.ok) {
+            const newTask = await response.json();
+            setTasks((currentTasks) => [...currentTasks, newTask]);
+        }
     };
 
     const deleteTask = async (id: number) => {
         const response = await fetch(`http://localhost:3000/tasks/${id}`, {
-            method: "DELETE"
+            method: "DELETE",
+            headers: {
+                "Authorization": `Bearer ${token}`
+            }
         });
 
         if (!response.ok) {
@@ -50,40 +97,36 @@ function App() {
             return;
         }
 
-        setTasks((currentTasks) =>
-            currentTasks.filter((task) => task.id !== id)
-        );
+        setTasks((currentTasks) => currentTasks.filter((task) => task.id !== id));
     };
 
     const toggleTask = async (id: number) => {
-        // Buscar el task actual
         const task = tasks.find((t) => t.id === id);
-
         if (!task) return;
 
-        // Llamar al API
         const response = await fetch(`http://localhost:3000/tasks/${id}`, {
             method: "PUT",
             headers: {
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`
             },
-            body: JSON.stringify({
-                completed: !task.completed
-            })
+            body: JSON.stringify({ completed: !task.completed })
         });
 
-        const updatedTask = await response.json();
-
-        setTasks((currentTasks) =>
-            currentTasks.map((task) =>
-                task.id === id ? updatedTask : task
-            )
-        );
+        if (response.ok) {
+            const updatedTask = await response.json();
+            setTasks((currentTasks) =>
+                currentTasks.map((task) => (task.id === id ? updatedTask : task))
+            );
+        }
     };
-
 
     const completedTasks = tasks.filter((task) => task.completed).length;
     const pendingTasks = tasks.length - completedTasks;
+
+    if (!token) {
+        return <Login onLoginSuccess={handleLoginSuccess} />;
+    }
 
     return (
         <div className="app-container">
@@ -91,19 +134,24 @@ function App() {
             <TaskInput onAddTask={addTask} />
 
             <div className="main-content">
-
                 <TaskList
                     tasks={tasks}
                     onDeleteTask={deleteTask}
                     onToggleTask={toggleTask}
                 />
 
-                <Footer
-                    total={tasks.length}
-                    completed={completedTasks}
-                    pending={pendingTasks}
-                />
-
+                <div className="sidebar-container">
+                    <Footer
+                        total={tasks.length}
+                        completed={completedTasks}
+                        pending={pendingTasks}
+                    />
+                    
+                    <UserPanel 
+                        userEmail={userEmail} 
+                        onLogout={handleLogout} 
+                    />
+                </div>
             </div>
         </div>
     );
