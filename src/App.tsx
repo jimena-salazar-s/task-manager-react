@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { FaUser } from "react-icons/fa"; // <-- Añade esta importación
+import { FaUser } from "react-icons/fa"; 
 import "./index.css";
 import "./App.css";
 import Header from "./components/Header";
@@ -8,6 +8,7 @@ import TaskInput from "./components/TaskInput";
 import UserPanel from "./components/UserPanel";
 import Footer from "./components/Footer";
 import Login from "./components/Login";
+import Register from "./components/Register"; // 1. Importamos el nuevo componente Register
 
 type Task = {
     id: number;
@@ -18,9 +19,11 @@ type Task = {
 function App() {
     const [token, setToken] = useState<string | null>(localStorage.getItem("token"));
     const [tasks, setTasks] = useState<Task[]>([]);
+    const [userName, setUserName] = useState<string>("");
     const [userEmail, setUserEmail] = useState<string>("");
+    
+    const [isRegistering, setIsRegistering] = useState<boolean>(false);
 
-    // Función para obtener el email desde el token JWT de forma nativa
     const getEmailFromToken = (jwtToken: string) => {
         try {
             const payload = jwtToken.split(".")[1];
@@ -31,9 +34,20 @@ function App() {
         }
     };
 
+    const getNameFromToken = (jwtToken: string) => {
+        try {
+            const payload = jwtToken.split(".")[1];
+            const decodedPayload = JSON.parse(atob(payload));
+            return decodedPayload.name;
+        } catch (error) {
+            return "";
+        }
+    };
+
     useEffect(() => {
         if (token) {
             setUserEmail(getEmailFromToken(token));
+            setUserName(getNameFromToken(token))
         }
     }, [token]);
 
@@ -47,6 +61,7 @@ function App() {
         setToken(null);
         setTasks([]);
         setUserEmail("");
+        setUserName("");
     };
 
     useEffect(() => {
@@ -125,7 +140,17 @@ function App() {
     const pendingTasks = tasks.length - completedTasks;
 
     if (!token) {
-        return <Login onLoginSuccess={handleLoginSuccess} />;
+        return isRegistering ? (
+            <Register 
+                onRegisterSuccess={() => setIsRegistering(false)}
+                onSwitchToLogin={() => setIsRegistering(false)}
+            />
+        ) : (
+            <Login 
+                onLoginSuccess={handleLoginSuccess} 
+                onSwitchToRegister={() => setIsRegistering(true)}
+            />
+        );
     }
 
     return (
@@ -148,6 +173,7 @@ function App() {
                     />
                     
                     <UserPanel 
+                        userName={userName}
                         userEmail={userEmail} 
                         onLogout={handleLogout} 
                     />
