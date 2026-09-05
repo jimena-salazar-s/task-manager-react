@@ -1,7 +1,6 @@
 # Task Manager - Full Stack Application
 
 <p align="center">
-  <img src="https://img.shields.io/badge/Status-Completed-success" alt="Status">
   <img src="https://img.shields.io/badge/React-TypeScript-blue" alt="Frontend">
   <img src="https://img.shields.io/badge/Node.js-Express-green" alt="Backend">
   <img src="https://img.shields.io/badge/PostgreSQL-Prisma-orange" alt="Database">
