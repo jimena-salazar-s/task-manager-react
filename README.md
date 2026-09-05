@@ -98,3 +98,4 @@ Accede a http://localhost:5173 en tu navegador web[cite: 1].
 **GET /tasks** - Obtención de tareas asociadas al usuario autenticado (Requiere Header Authorization: Bearer <token>).
 
 **POST /tasks** - Creación controlada de un nuevo registro de actividad.
+# prueba de protección
