@@ -8,6 +8,8 @@
   <img src="https://img.shields.io/badge/Security-JWT%20%26%20bcrypt-red" alt="Security">
 </p>
 
+<!-- BADGE_CI -->
+
 Sistema integral de gestión de tareas desarrollado bajo una **arquitectura desacoplada** como proyecto monográfico para el *Módulo de Fundamentos de Desarrollo Full Stack*.
 
 ---
@@ -87,6 +89,7 @@ Accede a http://localhost:5173 en tu navegador web[cite: 1].
 | npm install	| Instala los paquetes/librerias necesarios para el proyecto |
 | npm run dev	| Levanta el entorno de desarrollo |
 | npm run build	| Genera el build de producción |
+| npm test | Corre las pruebas automatizadas |
 | npx prisma@6.19.0 studio | Permite visualizar los datos de la base de datos de forma gráfica |
 
 ## Endpoints Principales de la API
