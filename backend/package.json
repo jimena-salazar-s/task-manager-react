@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "ts-node-dev src/index.ts",
     "lint": "eslint src/ --ext .ts",
-    "build": "vite build"
+    "build": "tsc"
   },
   "keywords": [],
   "author": "",
