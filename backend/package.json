@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "ts-node-dev src/index.ts",
-    "lint": "eslint index.ts",
+    "lint": "eslint src/ --ext .ts",
     "build": "vite build"
   },
   "keywords": [],
@@ -24,6 +24,8 @@
     "@types/express": "^5.0.6",
     "@types/jsonwebtoken": "^9.0.10",
     "@types/node": "^26.0.1",
+    "@typescript-eslint/eslint-plugin": "^8.70.0",
+    "@typescript-eslint/parser": "^8.70.0",
     "eslint": "^8.57.0",
     "prisma": "^6.19.0",
     "ts-node-dev": "^2.0.0",
