@@ -9,6 +9,7 @@ const app = express();
 const PORT = 3000;
 
 const prisma = new PrismaClient();
+const variableInnecesaria = "prueba de incidente";
 
 app.use(cors());
 app.use(express.json());
