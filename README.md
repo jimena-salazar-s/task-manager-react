@@ -1,13 +1,14 @@
 # Task Manager - Full Stack Application
 
 <p align="center">
+
+  [![.github/workflows/ci.yml](https://github.com/jimena-salazar-s/task-manager-react/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/jimena-salazar-s/task-manager-react/actions/workflows/ci.yml)
+
   <img src="https://img.shields.io/badge/React-TypeScript-blue" alt="Frontend">
   <img src="https://img.shields.io/badge/Node.js-Express-green" alt="Backend">
   <img src="https://img.shields.io/badge/PostgreSQL-Prisma-orange" alt="Database">
   <img src="https://img.shields.io/badge/Security-JWT%20%26%20bcrypt-red" alt="Security">
 </p>
-
-<!-- BADGE_CI -->
 
 Sistema integral de gestión de tareas desarrollado bajo una **arquitectura desacoplada** como proyecto monográfico para el *Módulo de Fundamentos de Desarrollo Full Stack*.
 

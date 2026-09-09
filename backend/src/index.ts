@@ -26,7 +26,7 @@ const authenticateToken = (req: any, res: any, next: any) => {
         const decoded = jwt.verify(token, SECRET_KEY);
         req.user = decoded;
         next();
-    } catch (error) {
+    } catch {
         return res.status(403).json({ message: "Invalid or expired token" });
     }
 };
@@ -59,7 +59,7 @@ app.post("/login", async (req: any, res: any) => {
                 token: token
             });
         }
-    } catch (error) {
+    } catch {
         res.status(500).json({ message: "Error en el servidor" });
     }
 
