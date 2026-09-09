@@ -2,7 +2,7 @@
 
 <p align="center">
 
-  [![.github/workflows/ci.yml](https://github.com/jimena-salazar-s/task-manager-react/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/jimena-salazar-s/task-manager-react/actions/workflows/ci.yml)
+  [![CI](https://github.com/jimena-salazar-s/task-manager-react/actions/workflows/ci.yml/badge.svg)](https://github.com/jimena-salazar-s/task-manager-react/actions/workflows/ci.yml)
 
   <img src="https://img.shields.io/badge/React-TypeScript-blue" alt="Frontend">
   <img src="https://img.shields.io/badge/Node.js-Express-green" alt="Backend">
