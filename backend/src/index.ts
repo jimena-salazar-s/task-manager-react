@@ -129,6 +129,11 @@ app.post("/tasks", authenticateToken, async (req: any, res: any) => {
 
 app.put("/tasks/:id", authenticateToken, async (req: any, res: any) => {
     const id = Number(req.params.id);
+
+    if (isNaN(id)) {
+        return res.status(400).json({ message: "Invalid task id" });
+    }
+
     const { text, completed } = req.body;
 
     const existingTask = await prisma.task.findUnique({ where: { id } });
@@ -158,3 +163,12 @@ app.delete("/tasks/:id", authenticateToken, async (req: any, res: any) => {
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
 });
+
+if (process.env.NODE_ENV !== 'test') {
+    const PORT = 3000;
+    app.listen(PORT, () => {
+        console.log(`Server running on port ${PORT}`);
+    });
+}
+
+module.exports = app;

@@ -22,17 +22,22 @@ function TaskCard({
             <div
                 className={`task-icon ${task.completed ? "completed" : ""}`}
                 onClick={() => onToggleTask(task.id)}
+                title="Marcar tarea"
             >
                 <FaCheck />
             </div>
 
-            <div className="task-title">
-                {task.text}
+            <div className="task-title-container">
+                <span className="task-title">
+                    {task.text}
+                </span>
+                {task.completed && <small className="status-badge">¡Hecho!</small>}
             </div>
 
             <button
                 className="delete-button"
                 onClick={() => onDeleteTask(task.id)}
+                aria-label="Eliminar tarea" // Añade accesibilidad limpia
             >
                 <FaTimes />
             </button>
