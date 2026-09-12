@@ -8,7 +8,8 @@ export default defineConfig({
   },
   webServer: [
     {
-      command: 'npm run dev --prefix ../backend', // Ajusta la ruta a tu backend
+      command: 'npm run dev --prefix ../backend',
+      cwd: '../backend',
       url: 'http://localhost:3000',
       reuseExistingServer: true,
     },
