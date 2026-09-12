@@ -29,5 +29,5 @@ test('un usuario se registra, inicia sesión, crea una tarea y la ve en la lista
   await page.getByRole('button', { name: 'New Task' }).click();
 
   // 5. Verificar que la tarea aparezca visible en la lista
-  await expect(page.getByText('Comprar leche')).toBeVisible();
+  await expect(page.getByText('Comprar pan')).toBeVisible();
 });

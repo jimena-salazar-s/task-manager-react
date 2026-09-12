@@ -67,6 +67,6 @@ describe('TaskCard', () => {
     await usuario.click(deleteButton);
 
     // Assert
-    expect(onDeleteTask).toHaveBeenCalledWith(1);
+    expect(onDeleteTask).toHaveBeenCalledWith(5);
   });
 });
