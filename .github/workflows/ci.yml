@@ -72,15 +72,19 @@ jobs:
       - name: Install backend dependencies
         run: npm ci
         working-directory: ./backend
-      # 2. Instalar dependencias del frontend
+      # 2. Generar el cliente de Prisma
+      - name: Generate Prisma Client
+        run: npx prisma generate
+        working-directory: ./backend
+      # 3. Instalar dependencias del frontend
       - name: Install frontend dependencies
         run: npm ci
         working-directory: ./frontend
-      # 3. Instalar navegadores de Playwright
+      # 4. Instalar navegadores de Playwright
       - name: Install Playwright
         run: npx playwright install --with-deps chromium
         working-directory: ./frontend
-      # 4. Correr las pruebas E2E
+      # 5. Correr las pruebas E2E
       - name: Run E2E tests
         run: npx playwright test
         working-directory: ./frontend
