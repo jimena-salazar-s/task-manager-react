@@ -59,34 +59,49 @@ jobs:
   e2e:
     name: Pruebas E2E
     runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:15-alpine
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: test_db
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
     env:
-      DATABASE_URL: "file:./dev.db"
-    defaults:
-      run:
-        working-directory: ./frontend
+      DATABASE_URL: "postgresql://postgres:postgres@localhost:5432/test_db?schema=public"
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
           cache: 'npm'
-      # 1. Instalar dependencias del backend (donde vive ts-node-dev)
+      
       - name: Install backend dependencies
         run: npm ci
         working-directory: ./backend
-      # 2. Generar el cliente de Prisma
+
       - name: Generate Prisma Client
         run: npx prisma generate
         working-directory: ./backend
-      # 3. Instalar dependencias del frontend
+
+      - name: Run Prisma Migrations
+        run: npx prisma db push
+        working-directory: ./backend
+
       - name: Install frontend dependencies
         run: npm ci
         working-directory: ./frontend
-      # 4. Instalar navegadores de Playwright
+
       - name: Install Playwright
         run: npx playwright install --with-deps chromium
         working-directory: ./frontend
-      # 5. Correr las pruebas E2E
+
       - name: Run E2E tests
         run: npx playwright test
         working-directory: ./frontend
