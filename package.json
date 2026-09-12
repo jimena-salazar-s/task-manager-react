@@ -1,0 +1,11 @@
+{
+  "scripts": {
+    "test": "vitest run",
+    "test:backend": "npm --prefix backend test",
+    "test:frontend": "npm --prefix frontend test"
+  },
+  "devDependencies": {
+    "jsdom": "^30.0.1",
+    "vitest": "^5.0.0"
+  }
+}
