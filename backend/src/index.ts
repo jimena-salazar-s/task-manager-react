@@ -6,7 +6,7 @@ const bcrypt = require("bcrypt");
 const { PrismaClient } = require("@prisma/client");
 
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 4000;
 
 const prisma = new PrismaClient();
 
@@ -165,7 +165,7 @@ app.listen(PORT, () => {
 });
 
 if (process.env.NODE_ENV !== 'test') {
-    const PORT = 3000;
+    const PORT = 4000;
     app.listen(PORT, () => {
         console.log(`Server running on port ${PORT}`);
     });

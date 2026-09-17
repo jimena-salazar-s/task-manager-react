@@ -6,7 +6,7 @@ test('un usuario se registra, inicia sesión, crea una tarea y la ve en la lista
   const password = 'password123';
 
   // 1. Registrar el usuario directamente por la API para preparar el entorno
-  const registerResponse = await request.post('http://localhost:3000/register', {
+  const registerResponse = await request.post('http://localhost:4000/register', {
     data: {
       name: 'Usuario Test',
       email: uniqueEmail,
