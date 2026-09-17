@@ -106,7 +106,7 @@ jobs:
         run: npx playwright test
         working-directory: ./frontend
   
-migraciones:
+  migraciones:
     name: Migraciones y Seeds
     runs-on: ubuntu-latest
     services:
