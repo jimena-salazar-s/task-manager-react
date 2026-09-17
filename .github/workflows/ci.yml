@@ -74,7 +74,7 @@ jobs:
           --health-timeout 5s
           --health-retries 5
     env:
-      DATABASE_URL: "postgresql://postgres:postgres@localhost:5432/test_db?schema=public"
+      DATABASE_URL: ${{ secrets.DATABASE_URL }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -105,3 +105,35 @@ jobs:
       - name: Run E2E tests
         run: npx playwright test
         working-directory: ./frontend
+  
+  migraciones:
+    name: Migraciones y Seeds
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_USER: ${{ secrets.TESTUSER }}
+          POSTGRES_PASSWORD: ${{ secrets.TESTPASS }}
+          POSTGRES_DB: ${{ secrets.TESTDB }}
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 5
+    defaults:
+      run:
+        working-directory: ./backend
+    env:
+      DATABASE_URL: ${{ secrets.DATABASE_URL }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+      - run: npm ci
+      - run: npx prisma migrate deploy
+      - run: npx prisma db seed
