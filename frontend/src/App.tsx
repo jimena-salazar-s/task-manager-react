@@ -68,7 +68,7 @@ function App() {
         if (!token) return;
 
         const fetchTasks = async () => {
-            const response = await fetch("http://localhost:3000/tasks", {
+            const response = await fetch("http://localhost:4000/tasks", {
                 headers: {
                     "Authorization": `Bearer ${token}`
                 }
@@ -84,7 +84,7 @@ function App() {
     }, [token]);
 
     const addTask = async (text: string) => {
-        const response = await fetch("http://localhost:3000/tasks", {
+        const response = await fetch("http://localhost:4000/tasks", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -100,7 +100,7 @@ function App() {
     };
 
     const deleteTask = async (id: number) => {
-        const response = await fetch(`http://localhost:3000/tasks/${id}`, {
+        const response = await fetch(`http://localhost:4000/tasks/${id}`, {
             method: "DELETE",
             headers: {
                 "Authorization": `Bearer ${token}`
@@ -119,7 +119,7 @@ function App() {
         const task = tasks.find((t) => t.id === id);
         if (!task) return;
 
-        const response = await fetch(`http://localhost:3000/tasks/${id}`, {
+        const response = await fetch(`http://localhost:4000/tasks/${id}`, {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",
