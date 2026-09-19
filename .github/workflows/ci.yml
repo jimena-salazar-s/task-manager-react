@@ -9,7 +9,7 @@ on:
     inputs:
       confirmacion:
         description: "Escribe DEPLOY para confirmar el despliegue a produccion"
-        required: true
+        required: false
 
 jobs:
   frontend:
