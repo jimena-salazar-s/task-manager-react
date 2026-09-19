@@ -2,9 +2,9 @@ name: CI
 
 on:
   push:
-    branches: [main]
+    branches: [feat/railway-2]
   pull_request:
-    branches: [main]
+    branches: [feat/railway-2]
   workflow_dispatch:
     inputs:
       confirmacion:
@@ -146,7 +146,7 @@ jobs:
   deploy-staging:
     name: Deploy a Staging
     needs: [frontend, backend, test, e2e, migraciones]
-    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    if: github.ref == 'refs/heads/feat/railway-2' && github.event_name == 'push'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
