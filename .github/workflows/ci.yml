@@ -152,12 +152,12 @@ jobs:
       - uses: actions/checkout@v4
       - name: Instalar Railway CLI
         run: npm install -g @railway/cli
-      - name: Vincular Proyecto y Desplegar a Railway (staging)
-        run: |
-          railway link 2ca47c25-962f-438b-9f9e-188a91e75ad7
-          railway up --service backend --environment staging
+      - name: Desplegar a Railway (staging)
+        run: railway up --service backend --environment staging
         env:
           RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
+          RAILWAY_PROJECT_ID: 2ca47c25-962f-438b-9f9e-188a91e75ad7
+          RAILWAY_ENVIRONMENT_ID: 0387eef6-d415-4c7d-9fe1-55d6fcd057a4
 
   deploy-produccion:
     name: Deploy a Producción (manual)
@@ -166,9 +166,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - run: npm install -g @railway/cli
-      - name: Vincular Proyecto y Desplegar a Railway (produccion)
-        run: |
-          railway link 2ca47c25-962f-438b-9f9e-188a91e75ad7
-          railway up --service backend --environment production
+      - name: Desplegar a Railway (produccion)
+        run: railway up --service backend --environment production
         env:
           RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
+          RAILWAY_PROJECT_ID: 2ca47c25-962f-438b-9f9e-188a91e75ad7
+          RAILWAY_ENVIRONMENT_ID: bc52abc9-e0d9-4ae2-95c3-635dc36260de
