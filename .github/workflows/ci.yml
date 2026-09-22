@@ -2,14 +2,14 @@ name: CI
 
 on:
   push:
-    branches: [main, feat/railway-2]
+    branches: [main]
   pull_request:
-    branches: [main, feat/railway-2]
+    branches: [main]
   workflow_dispatch:
     inputs:
       confirmacion:
         description: "Escribe DEPLOY para confirmar el despliegue a produccion"
-        required: false
+        required: true
 
 jobs:
   frontend:
@@ -146,7 +146,7 @@ jobs:
   deploy-staging:
     name: Deploy a Staging
     needs: [frontend, backend, test, e2e, migraciones]
-    if: github.ref == 'refs/heads/feat/railway-2' && github.event_name == 'push'
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -156,8 +156,6 @@ jobs:
         run: railway up --service backend --environment staging
         env:
           RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
-          RAILWAY_PROJECT_ID: 2ca47c25-962f-438b-9f9e-188a91e75ad7
-          RAILWAY_ENVIRONMENT_ID: 0387eef6-d415-4c7d-9fe1-55d6fcd057a4
 
   deploy-produccion:
     name: Deploy a Producción (manual)
@@ -170,5 +168,3 @@ jobs:
         run: railway up --service backend --environment production
         env:
           RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
-          RAILWAY_PROJECT_ID: 2ca47c25-962f-438b-9f9e-188a91e75ad7
-          RAILWAY_ENVIRONMENT_ID: bc52abc9-e0d9-4ae2-95c3-635dc36260de
