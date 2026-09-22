@@ -9,7 +9,7 @@ on:
     inputs:
       confirmacion:
         description: "Escribe DEPLOY para confirmar el despliegue a produccion"
-        required: false
+        required: true
 
 jobs:
   frontend:
@@ -152,10 +152,8 @@ jobs:
       - uses: actions/checkout@v4
       - name: Instalar Railway CLI
         run: npm install -g @railway/cli
-      - name: Vincular Proyecto y Desplegar a Railway (staging)
-        run: |
-          railway link 2ca47c25-962f-438b-9f9e-188a91e75ad7
-          railway up --service backend --environment staging
+      - name: Desplegar a Railway (staging)
+        run: railway up --service backend --environment staging
         env:
           RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
 
@@ -166,9 +164,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - run: npm install -g @railway/cli
-      - name: Vincular Proyecto y Desplegar a Railway (produccion)
-        run: |
-          railway link 2ca47c25-962f-438b-9f9e-188a91e75ad7
-          railway up --service backend --environment production
+      - name: Desplegar a Railway (produccion)
+        run: railway up --service backend --environment staging
         env:
           RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
