@@ -31,7 +31,7 @@ function TaskCard({
                 <span className="task-title">
                     {task.text}
                 </span>
-                {task.completed && <small className="status-badge">¡Hecho!</small>}
+                {task.completed && <small className="status-badge">Done!</small>}
             </div>
 
             <button
