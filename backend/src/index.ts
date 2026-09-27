@@ -164,6 +164,11 @@ app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
 });
 
+// backend/src/index.js (o donde definas tus rutas)
+app.get('/health', async (req: any, res: any) => {
+  res.status(200).json({ status: 'ok' })
+})
+
 if (process.env.NODE_ENV !== 'test') {
     const PORT = 4000;
     app.listen(PORT, () => {
